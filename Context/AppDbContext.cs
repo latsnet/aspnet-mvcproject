@@ -12,5 +12,8 @@ public class AppDbContext : DbContext
     
     public DbSet<Category> Categories { get; set; }
     public DbSet<Snack> Snacks { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<UserGroup> UserGroups { get; set; }
+    public DbSet<Customer> Customers { get; set; }
 
 } 
