@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using mvc_project.Context;
+using mvc_project.Repositories;
+using mvc_project.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +10,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
+builder.Services.AddTransient<ISnackRepository, SnackRepository>();
 
 var app = builder.Build();
 
