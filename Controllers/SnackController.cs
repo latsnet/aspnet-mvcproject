@@ -23,6 +23,16 @@ public class SnackController : Controller
         return View(snacks);
     }
 
-    public void Add {}
+    public IActionResult Add() 
+    {
+
+    }
+
+    public IActionResult Update() 
+    {
+        
+    }
+
+
 
 }
