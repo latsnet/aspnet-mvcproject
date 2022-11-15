@@ -9,17 +9,17 @@ public class CategoryController : Controller
 {
 
     private readonly ILogger<CategoryController> _logger;
-    private readonly ICategoryRepository _CategoryRepository;
+    private readonly ICategoryRepository _categoryRepository;
 
-    public CategoryController(ILogger<CategoryController> logger, ICategoryRepository CategoryRepository) 
+    public CategoryController(ILogger<CategoryController> logger, ICategoryRepository categoryRepository) 
     {
         _logger = logger;
-        _CategoryRepository = CategoryRepository;
+        _categoryRepository = categoryRepository;
     }    
     
     public IActionResult List() 
     {
-        var categories = _CategoryRepository.Categories;
+        var categories = _categoryRepository.Categories;
         return View(categories);
     }
 
