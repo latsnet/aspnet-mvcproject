@@ -4,4 +4,11 @@
     ViewData["Title"] = "Snacks List";
 }
 
-<h1>Snacks List</h1>
+@foreach (var snack in Model)
+{
+    <div>
+        <h4>Snack : @snack.SnackName</h4>
+        <p><img src="@snack.ImageUrl" alt="snack image"></p>
+        <p>Price : @snack.Price.ToString("c")</p>
+    </div>
+}

@@ -2,7 +2,7 @@ using mvc_project.Models;
 
 namespace mvc_project.Repositories.Interfaces;
 
-public class ICategoryRepository
+public interface ICategoryRepository
 {
     IEnumerable<Category> Categories { get; }
 }
