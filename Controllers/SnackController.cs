@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using mvc_project.Models;
+using mvc_project.ViewModels;
 using mvc_project.Repositories.Interfaces;
 
 namespace mvc_project.Controllers;
@@ -20,7 +21,12 @@ public class SnackController : Controller
     public IActionResult List() 
     {
         var snacks = _snackRepository.Snacks;
-        return View(snacks);
+
+        var snackList = new SnackListViewModel();
+        snackList.Snacks = snacks;
+        snackList.Category = "Category";
+
+        return View(snackList);
     }
 
     public IActionResult Add() 
