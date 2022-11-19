@@ -15,8 +15,6 @@ public class AppDbContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<UserGroup> UserGroups { get; set; }
     public DbSet<Customer> Customers { get; set; }
-    public DbSet<Order> Orders { get; set; }
-    public DbSet<OrderItem> OrderItems { get; set; }
     public DbSet<ShopCartItem> ShopCartItems { get; set; }
 
 } 
