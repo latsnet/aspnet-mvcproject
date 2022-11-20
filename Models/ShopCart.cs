@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using mvc_project.Context;
 
 namespace mvc_project.Models;
 
@@ -14,9 +15,25 @@ public class ShopCart
 
     private readonly AppDbContext _context;
 
-    public ShopCart(IAppDbContext context) 
+    public ShopCart(AppDbContext context) 
     { 
         this._context = context;
+    }
+
+    public static ShopCart GetShopCart(IServiceProvider services) 
+    { 
+        ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
+
+        var context = services.GetService<AppDbContext>();
+
+        string shopCartId = session.GetString("ShopCartId")??Guid.NewGuid().ToString();
+
+        session.SetString("ShopCartId", shopCartId);
+
+        return new ShopCart(context) 
+        { 
+            ShopCartId = shopCartId
+        };
     }
 
 }
