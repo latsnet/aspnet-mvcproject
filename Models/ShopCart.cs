@@ -36,4 +36,24 @@ public class ShopCart
         };
     }
 
+    public void AddShopCart(Snack snack) 
+    {
+        var shopCartItem = _context.ShopCartItems.SingleOrDefault(s => s.Snack.SnackId == snack.SnackId && s.OrderId == ShopCartId);
+        if (shopCartItem == null) 
+        {
+            shopCartItem = new ShopCartItem() 
+            {
+                OrderId = ShopCartId,
+                Snack = snack, 
+                Quantity = 1
+            };
+            _context.ShopCartItems.Add(shopCartItem);
+        }
+        else
+        { 
+            shopCartItem.Quantity++;
+        }
+        _context.SaveChanges();
+    }
+
 }
