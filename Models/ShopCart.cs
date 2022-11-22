@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 using mvc_project.Context;
 
 namespace mvc_project.Models;
@@ -45,7 +46,8 @@ public class ShopCart
             {
                 OrderId = ShopCartId,
                 Snack = snack, 
-                Quantity = 1
+                Quantity = 1,
+                Price = snack.Price
             };
             _context.ShopCartItems.Add(shopCartItem);
         }
@@ -59,7 +61,7 @@ public class ShopCart
     public int RemoveShopCart(Snack snack)
     {
         var shopCartItem = _context.ShopCartItems.SingleOrDefault(s => s.Snack.SnackId == snack.SnackId && s.OrderId == ShopCartId);
-        
+
         if (shopCartItem != null)
         { 
             int quantity = shopCartItem.Quantity - 1;
@@ -76,6 +78,27 @@ public class ShopCart
         }
 
         return 0;
+    }
+
+    public List<ShopCartItem> GetShopCartItems()
+    {
+        return ShopCartItems ?? (ShopCartItems = _context.ShopCartItems.Where(c => c.OrderId == ShopCartId).Include(c => c.Snack).ToList());
+    }
+
+    public void ClearShopCart()
+    {
+        var shopCartItems = _context.ShopCartItems.Where(c => c.OrderId == ShopCartId);
+
+        _context.RemoveRange(shopCartItems);
+
+        _context.SaveChanges();
+    }
+
+    public decimal GetTotalShopCart()
+    {
+        var total = _context.ShopCartItems.Where(c => c.OrderId == ShopCartId).Sum(c => c.Quantity * c.Price);
+
+        return total;
     }
 
 }
