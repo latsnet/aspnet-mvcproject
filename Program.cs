@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using mvc_project.Context;
 using mvc_project.Repositories;
 using mvc_project.Repositories.Interfaces;
+using mvc_project.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 builder.Services.AddTransient<ISnackRepository, SnackRepository>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped(sp => ShopCart.GetShopCart(sp));
 
 builder.Services.AddMemoryCache();
 builder.Services.AddSession();
