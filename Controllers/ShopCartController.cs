@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using mvc_project.Models;
 using mvc_project.Repositories.Interfaces;
+using mvc_project.ViewModels;
 
 namespace mvc_project.Controllers;
 
@@ -24,7 +25,17 @@ public class ShopCartController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        var itens = _shopCart.GetShopCartItems();
+
+        _shopCart.ShopCartItems = itens;
+
+        var shopCartVM = new ShopCartViewModel() 
+        {
+            ShopCart = _shopCart,
+            TotalShopCart = _shopCart.GetTotalShopCart()
+        };
+
+        return View(shopCartVM);
     }
 
     public IActionResult AddItemToShopCart()
