@@ -38,7 +38,7 @@ public class ShopCartController : Controller
         return View(shopCartVM);
     }
 
-    public RedirectToActionResult AddItemToShopCart(int snackId)
+    public IActionResult AddItemToShopCart(int snackId)
     {
         var selectedSnack = _snackRepository.Snacks.FirstOrDefault(s => s.SnackId == snackId);
 
@@ -50,11 +50,16 @@ public class ShopCartController : Controller
         return RedirectToAction("Index");
     }
 
-    public IActionResult RemoveItemFromShopCart()
+    public IActionResult RemoveItemFromShopCart(int snackId)
     {
-        return View();
+        var selectedSnack = _snackRepository.Snacks.FirstOrDefault(s => s.SnackId == snackId);
+
+        if (selectedSnack != null)
+        {
+            _shopCart.RemoveShopCart(selectedSnack);
+        }
+
+        return RedirectToAction("Index");
     }
-
-
 
 }
