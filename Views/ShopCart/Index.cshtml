@@ -1,9 +1,53 @@
 @model mvc_project.ViewModels.ShopCartViewModel
 
-@{
-    ViewData["Title"] = "Shop Cart";
-}
+<div class="container">
+    <div class="row">
+        <img src="~/images/shopping-cart.png" alt="Shopping Cart" width="32" height="32" />
 
-<h1>@ViewData["Title"]</h1>
+        <div>
+            <h4>Seu carrinho de compas:</h4>
+        </div>
 
-<p>Carrinho de Compras.</p>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Quantidade</th>
+                    <th>Lanche</th>
+                    <th class="text-right">Preço</th>
+                    <th class="text-right">Subtotal</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ShopCart.ShopCartItems) 
+                {
+                    <tr class="text-center">@item.Quantity</tr>
+                    <tr class="text-left">@item.Snack.SnackName</tr>
+                    <tr class="text-right">@item.Price.ToString("c")</tr>
+                    <tr class="text-right">@(item.Price * item.Quantity).ToString("c")</tr>
+                    <tr class="text-center">
+                        <a asp-controller="ShopCart" asp-action="RemoveItemFromShopCart"
+                            asp-route-snackId="@item.Snack.SnackId"><img src="~/images/delete.png" alt="Apagar item" width="20px" height="20px" />
+                        </a>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" class="text-right">Total:</td>
+                    <td class="text-right">
+                        @Model.TotalShopCart.ToString("c")
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="text-right">
+            <div class="btn-group">
+                <a class="btn btn-success" asp-controller="Order" asp-action="Checkout">Encerrar Pedido</a>&nbsp;&nbsp;
+                <a class="btn btn-primary" asp-controller="Snack" asp-action="List">Continuar Comprando</a>
+            </div>
+        </div>
+    </div>
+</div>
+
