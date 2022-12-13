@@ -18,15 +18,40 @@ public class SnackController : Controller
         _snackRepository = snackRepository;
     }    
     
-    public IActionResult List() 
+    public IActionResult List(string category) 
     {
-        var snacks = _snackRepository.Snacks;
+        IEnumerable<Snack> snacks;
+        string actualCategory = string.Empty;
 
-        var snackList = new SnackListViewModel();
-        snackList.Snacks = snacks;
-        snackList.Category = "Category";
+        if (string.IsNullOrEmpty(category)) 
+        {
+            snacks = _snackRepository.Snacks.OrderBy(l => l.SnackId);
+            actualCategory = "All Snacks";
+        }
+        else
+        {
+            if (string.Equals("Normal", category, StringComparison.OrdinalIgnoreCase)) 
+            {
+                snacks = _snackRepository.Snacks
+                    .Where(l => l.Category.CategoryName.Equals("Normal"))
+                    .OrderBy(l => l.SnackName);
+            }
+            else
+            {
+                snacks = _snackRepository.Snacks
+                    .Where(l => l.Category.CategoryName.Equals("Normal"))
+                    .OrderBy(l => l.SnackName);
+            }
+            actualCategory = category;
+        }
 
-        return View(snackList);
+        var snackListViewModel = new SnackListViewModel()
+        {
+            Snacks = snacks,
+            Category = actualCategory
+        };
+
+        return View(snackListViewModel);
     }
 
     public IActionResult Add() 
