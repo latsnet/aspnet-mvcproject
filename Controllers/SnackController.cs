@@ -39,7 +39,7 @@ public class SnackController : Controller
             else
             {
                 snacks = _snackRepository.Snacks
-                    .Where(l => l.Category.CategoryName.Equals("Normal"))
+                    .Where(l => l.Category.CategoryName.Equals("Natural"))
                     .OrderBy(l => l.SnackName);
             }
             actualCategory = category;

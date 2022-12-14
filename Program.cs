@@ -44,6 +44,11 @@ app.UseSession();
 app.UseAuthorization();
 
 app.MapControllerRoute(
+    name: "categoryFilter",
+    pattern: "Snack/{action}/{category?}",
+    defaults: new { Controller = "Snack", action = "List" });
+
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
